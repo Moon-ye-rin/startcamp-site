@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="ko" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>연락처 | 문예린 포트폴리오</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        // 다크모드 초기화 스크립트 (플리커링 방지)
+        if (localStorage.getItem('darkMode') === 'enabled' || 
+            (!('darkMode' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+    </script>
+    <!-- Google Fonts: Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            word-break: keep-all;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 dark:bg-slate-950 dark:text-slate-100 antialiased selection:bg-blue-500 selection:text-white min-h-screen flex flex-col transition-colors duration-300">
+
+    <!-- 스크롤 진행률 상단 바 -->
+    <div id="scroll-progress" class="fixed top-0 left-0 h-1 bg-gradient-to-r from-blue-500 to-indigo-600 z-[60] w-0 transition-all duration-100"></div>
+
+    <!-- Header Navigation (공통 네비게이션 적용, '연락처' 활성화) -->
+    <header class="fixed top-0 left-0 w-full bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-b border-slate-100 dark:border-slate-800 z-50 transition-all duration-300">
+        <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+            <a href="index.html" class="text-lg font-extrabold tracking-tight text-blue-600 dark:text-blue-400 flex items-center gap-2">
+                <span class="w-3 h-3 rounded-full bg-blue-600 dark:bg-blue-400 animate-pulse"></span>
+                YERIN.M
+            </a>
+            
+            <nav class="hidden md:flex items-center gap-8 text-sm font-medium">
+                <a href="index.html" id="nav-home" class="transition-colors duration-200 text-slate-600 hover:text-blue-600 dark:text-slate-300 dark:hover:text-blue-400">홈</a>
+                <a href="about.html" id="nav-about" class="transition-colors duration-200 text-slate-600 hover:text-blue-600 dark:text-slate-300 dark:hover:text-blue-400">소개</a>
+                <a href="gallery.html" id="nav-gallery" class="transition-colors duration-200 text-slate-600 hover:text-blue-600 dark:text-slate-300 dark:hover:text-blue-400">갤러리</a>
+                <a href="contact.html" id="nav-contact" class="transition-colors duration-200 text-blue-600 font-semibold dark:text-blue-400">연락처</a>
+            </nav>
+            
+            <div class="flex items-center gap-4">
+                <button id="dark-mode-toggle" class="p-2 rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 transition-colors text-slate-600 dark:text-slate-300" aria-label="테마 전환">
+                    <svg id="sun-icon" class="w-5 h-5 hidden dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-12.728l.707.707m12.728 12.728l.707-.707M12 8a4 4 0 100 8 4 4 0 000-8z"></path>
+                    </svg>
+                    <svg id="moon-icon" class="w-5 h-5 block dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+                    </svg>
+                </button>
+
+                <a href="contact.html" class="text-xs md:text-sm font-semibold text-blue-600 bg-blue-50 hover:bg-blue-100 dark:text-blue-400 dark:bg-slate-800 dark:hover:bg-slate-700 px-4 py-2 rounded-full transition-all duration-200">
+                    SSAFY 16기 합류하기
+                </a>
+                
+                <button id="mobile-menu-btn" class="md:hidden text-slate-600 dark:text-slate-300 hover:text-blue-600 focus:outline-none" aria-label="메뉴 열기">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        
+        <!-- 모바일 메뉴 드롭다운 -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white dark:bg-slate-900 border-b border-slate-100 dark:border-slate-800 px-6 py-4 space-y-3">
+            <a href="index.html" class="block text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-blue-600 py-1">홈</a>
+            <a href="about.html" class="block text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-blue-600 py-1">소개</a>
+            <a href="gallery.html" class="block text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-blue-600 py-1">갤러리</a>
+            <a href="contact.html" class="block text-sm font-medium text-blue-600 dark:text-blue-400 py-1">연락처</a>
+        </div>
+    </header>
+
+    <main class="flex-grow pt-16">
+        <!-- Contact Hero Section -->
+        <section class="py-20 bg-gradient-to-b from-blue-50/20 to-white dark:from-slate-900/20 dark:to-slate-950">
+            <div class="max-w-4xl mx-auto px-6 text-center">
+                <span class="text-xs font-bold text-blue-600 dark:text-blue-400 tracking-wider uppercase">GET IN TOUCH</span>
+                <h1 class="text-3xl sm:text-5xl font-extrabold text-slate-900 dark:text-white mt-3 leading-tight">
+                    함께 성장하고 임팩트를 만들<br><span class="text-blue-600 dark:text-blue-400">동료들을 기다립니다</span>
+                </h1>
+                <p class="text-slate-600 dark:text-slate-300 text-sm sm:text-base mt-4 max-w-2xl mx-auto leading-relaxed">
+                    프로젝트 협업, 기술 교류, 혹은 가벼운 커피챗 등 어떤 제안이든 환영합니다.<br>언제든 연락 주시면 가장 빠른 피드백으로 화답하겠습니다.
+                </p>
+            </div>
+        </section>
+
+        <!-- Contact Details & Map Grid -->
+        <section class="pb-32 bg-white dark:bg-slate-950 transition-colors duration-300">
+            <div class="max-w-6xl mx-auto px-6">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+                    
+                    <!-- Left: Contact Information Cards -->
+                    <div class="lg:col-span-5 space-y-6">
+                        <div class="p-8 rounded-3xl bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-slate-800 space-y-8">
+                            <h3 class="text-xl font-bold text-slate-950 dark:text-white pb-4 border-b border-slate-200 dark:border-slate-800">
+                                Contact Channels
+                            </h3>
+                            
+                            <!-- Email Channel -->
+                            <div class="space-y-2">
+                                <span class="text-xs font-semibold text-slate-400 uppercase tracking-widest block">EMAIL</span>
+                                <div class="flex items-center justify-between gap-4 p-3.5 bg-white dark:bg-slate-850 border border-slate-150 dark:border-slate-800 rounded-xl">
+                                    <span class="text-sm font-bold text-slate-800 dark:text-slate-200 truncate select-all">myr1106@naver.com</span>
+                                    <button onclick="copyToClipboard('myr1106@naver.com')" class="px-3 py-1.5 bg-blue-50 hover:bg-blue-100 text-blue-600 dark:bg-slate-800 dark:hover:bg-slate-700 dark:text-blue-400 rounded-lg text-xs font-bold shrink-0 transition-colors">
+                                        복사
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- GitHub Channel -->
+                            <div class="space-y-2">
+                                <span class="text-xs font-semibold text-slate-400 uppercase tracking-widest block">GITHUB</span>
+                                <div class="flex items-center justify-between gap-4 p-3.5 bg-white dark:bg-slate-850 border border-slate-150 dark:border-slate-800 rounded-xl">
+                                    <span class="text-sm font-bold text-slate-800 dark:text-slate-200 truncate">github.com/Moon-ye-rin</span>
+                                    <a href="https://github.com" target="_blank" class="px-3 py-1.5 bg-blue-50 hover:bg-blue-100 text-blue-600 dark:bg-slate-800 dark:hover:bg-slate-700 dark:text-blue-400 rounded-lg text-xs font-bold shrink-0 transition-colors">
+                                        이동
+                                    </a>
+                                </div>
+                            </div>
+
+                            <!-- Phone Channel -->
+                            <div class="space-y-2">
+                                <span class="text-xs font-semibold text-slate-400 uppercase tracking-widest block">PHONE (CALL / SMS)</span>
+                                <div class="flex items-center justify-between gap-4 p-3.5 bg-white dark:bg-slate-850 border border-slate-150 dark:border-slate-800 rounded-xl">
+                                    <span class="text-sm font-bold text-slate-800 dark:text-slate-200 truncate">010-XXXX-YYYY</span>
+                                    <button onclick="alert('합류 수락 시 안심 연락처로 자동 변환됩니다. 이메일로 제안 주시면 빠르게 안내해 드릴게요!')" class="px-3 py-1.5 bg-blue-50 hover:bg-blue-100 text-blue-600 dark:bg-slate-800 dark:hover:bg-slate-700 dark:text-blue-400 rounded-lg text-xs font-bold shrink-0 transition-colors">
+                                        확인
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Synergy Pledge Callout -->
+                        <div class="p-8 rounded-3xl bg-blue-50/50 dark:bg-blue-950/20 border border-blue-100 dark:border-blue-900/40">
+                            <span class="text-lg">🤝</span>
+                            <h4 class="text-base font-bold text-blue-950 dark:text-blue-100 mt-2">문예린과의 협업 약속</h4>
+                            <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 mt-2 leading-relaxed">
+                                연락 확인 후 평균 2시간 이내에 진정성 있고 구체적인 회신을 드립니다. 함께 협업할 때 소통의 투명함과 정서적 지지를 가장 핵심 가치로 지키겠습니다.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Right: Seoul Multicampus Map & Details -->
+                    <div class="lg:col-span-7 space-y-6">
+                        <div class="p-8 rounded-3xl bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-slate-800 space-y-6">
+                            <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-2">
+                                <div>
+                                    <h3 class="text-xl font-bold text-slate-950 dark:text-white">
+                                        SSAFY 서울 멀티캠퍼스
+                                    </h3>
+                                    <p class="text-xs text-slate-500 mt-1">우리들의 치열한 배움과 시너지가 일어날 주 활동 공간입니다.</p>
+                                </div>
+                                <span class="self-start sm:self-center text-xs bg-emerald-100 text-emerald-800 dark:bg-emerald-950/40 dark:text-emerald-400 px-3 py-1 rounded-full font-bold">
+                                    역삼역 도보 5분
+                                </span>
+                            </div>
+
+                            <!-- Google Map Iframe (Fully Responsive) -->
+                            <div class="w-full h-80 rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-800 relative bg-slate-200">
+                                <iframe 
+                                    src="https://maps.google.com/maps?q=%EC%84%9C%EC%9A%B8%20%EA%B0%95%EB%82%A8%EA%B5%AC%20%ED%85%8C%ED%97%A4%EB%9E%80%EB%A1%9C%20212&t=&z=16&ie=UTF8&iwloc=&output=embed" 
+                                    class="absolute inset-0 w-full h-full border-0 grayscale dark:invert-[0.9] dark:hue-rotate-180" 
+                                    allowfullscreen="" 
+                                    loading="lazy" 
+                                    referrerpolicy="no-referrer-when-downgrade"
+                                    title="SSAFY 서울 멀티캠퍼스 주소">
+                                </iframe>
+                            </div>
+
+                            <!-- Address Detail Info -->
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs sm:text-sm pt-2">
+                                <div class="space-y-1">
+                                    <span class="font-semibold text-slate-400 dark:text-slate-500">지번 / 도로명 주소</span>
+                                    <p class="text-slate-800 dark:text-slate-200 font-medium">
+                                        서울특별시 강남구 테헤란로 212<br>(역삼동 718-5) 멀티캠퍼스 빌딩
+                                    </p>
+                                </div>
+                                <div class="space-y-1">
+                                    <span class="font-semibold text-slate-400 dark:text-slate-500">교통 이용 정보</span>
+                                    <p class="text-slate-800 dark:text-slate-200 font-medium">
+                                        2호선 역삼역 1번 출구에서 선릉역 방향 약 300m 직진 후 우측 위치
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Toast Popup for Clipboard copy -->
+    <div id="toast" class="fixed bottom-8 left-1/2 -translate-x-1/2 bg-slate-900/90 dark:bg-blue-600 text-white text-xs sm:text-sm px-6 py-3.5 rounded-full shadow-2xl z-[100] transform translate-y-8 opacity-0 pointer-events-none transition-all duration-300 flex items-center gap-2">
+        <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+        </svg>
+        <span>이메일 주소가 성공적으로 복사되었습니다!</span>
+    </div>
+
+    <footer class="bg-slate-950 text-slate-500 py-12 border-t border-slate-900 text-xs sm:text-sm">
+        <div class="max-w-6xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div>
+                <p class="font-bold text-slate-300 mb-1">문예린 | SSAFY 16기 예비 개발자</p>
+                <p>© 2026 Yerin Moon. All rights reserved.</p>
+            </div>
+            <div class="flex gap-6">
+                <a href="index.html" class="hover:text-white transition-colors">홈</a>
+                <a href="about.html" class="hover:text-white transition-colors">소개</a>
+                <a href="gallery.html" class="hover:text-white transition-colors">갤러리</a>
+                <a href="contact.html" class="hover:text-white transition-colors">연락처</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // 이메일 주소 클립보드 복사 유틸 (iframe 제약 극복용 fallback 탑재)
+        function copyToClipboard(text) {
+            const tempTextArea = document.createElement("textarea");
+            tempTextArea.value = text;
+            document.body.appendChild(tempTextArea);
+            tempTextArea.select();
+            
+            try {
+                const successful = document.execCommand('copy');
+                if (successful) {
+                    showToast();
+                } else {
+                    console.error("복사에 실패했습니다.");
+                }
+            } catch (err) {
+                console.error("클립보드 접근 중 오류 발생:", err);
+            } finally {
+                document.body.removeChild(tempTextArea);
+            }
+        }
+
+        // 토스트 알림 제어
+        function showToast() {
+            const toast = document.getElementById('toast');
+            if (toast) {
+                toast.classList.remove('translate-y-8', 'opacity-0', 'pointer-events-none');
+                toast.classList.add('translate-y-0', 'opacity-100');
+                
+                setTimeout(() => {
+                    toast.classList.remove('translate-y-0', 'opacity-100');
+                    toast.classList.add('translate-y-8', 'opacity-0', 'pointer-events-none');
+                }, 2500);
+            }
+        }
+
+        // 다크모드/라이트모드 수동 전환 제어
+        document.addEventListener("DOMContentLoaded", function() {
+            const toggleBtn = document.getElementById('dark-mode-toggle');
+            if (toggleBtn) {
+                toggleBtn.addEventListener('click', () => {
+                    if (document.documentElement.classList.contains('dark')) {
+                        document.documentElement.classList.remove('dark');
+                        localStorage.setItem('darkMode', 'disabled');
+                    } else {
+                        document.documentElement.classList.add('dark');
+                        localStorage.setItem('darkMode', 'enabled');
+                    }
+                });
+            }
+
+            // 모바일 햄버거 토글러
+            const menuBtn = document.getElementById("mobile-menu-btn");
+            const mobileMenu = document.getElementById("mobile-menu");
+            if (menuBtn && mobileMenu) {
+                menuBtn.addEventListener("click", () => {
+                    mobileMenu.classList.toggle("hidden");
+                });
+            }
+
+            // 스크롤 탑바 진행률 연산
+            window.addEventListener('scroll', () => {
+                const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+                const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+                const scrolled = (winScroll / height) * 100;
+                const progress = document.getElementById('scroll-progress');
+                if (progress) progress.style.width = scrolled + '%';
+            });
+        });
+    </script>
+</body>
+</html>
